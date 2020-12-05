@@ -91,22 +91,13 @@ static Skiplist skiplistCreateNode(int key, int height)
 
     Skiplist s;
 
- 
- 
-
     s = kmalloc(sizeof(struct skiplist) + sizeof(struct skiplist *) * (height - 1) , GFP_KERNEL);
-
- 
- 
 
     s->key = key;
 
     s->height = height;
 
- 
-
     return s;
-
 }
 
  
@@ -116,7 +107,6 @@ static Skiplist skiplistCreateNode(int key, int height)
 Skiplist skiplistCreate(void)
 
 {
-
     Skiplist s;
 
     int i;
@@ -339,24 +329,54 @@ void skiplistDelete(Skiplist s, int key)
 
 }
 
-
 void struct_example(void){
+	
+    int n;
+    Skiplist s;
+    int i;
 
+    n = 100;
+    s = skiplistCreate();
+
+    for(i = 0; i < n; i += 2) {
+        skiplistInsert(s, i);
+    }
+    
+    printk("insert final value : %d\n", s->key);
+    
+    
+    for(i = 0; i < n; i += 4) {
+        printk("delete start value : %d\n", s->key);
+        skiplistDelete(s, i);
+        printk("delete end value : %d\n", s->key);
+    }
+
+    /* make sure insert/delete works with duplicates */
+    for(i = 0; i < n; i++) {
+        skiplistInsert(s, 0);
+    }
+
+    for(i = 0; i < n; i++) {
+        skiplistDelete(s, 0);
+    }
+
+
+    skiplistDestroy(s);
 
 }
 
 
-int __init skip_module_init(void){
-	struct_exmaple();
 
+int __init skip_module_init(void){
+	struct_example();
 	printk("module init\n");
 	return 0;
 }
 
-void __exit hello_module_cleanup(void){
+void __exit skip_module_cleanup(void){
 	printk("Bye Module\n");
 }
 
-module_init(hello_module_init);
-module_exit(hello_module_cleanup);
+module_init(skip_module_init);
+module_exit(skip_module_cleanup);
 MODULE_LICENSE("GPL");

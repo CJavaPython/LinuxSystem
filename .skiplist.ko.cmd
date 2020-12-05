@@ -1,0 +1,1 @@
+cmd_/home/woongsu/term_linux/skiplist.ko := ld -r -m elf_x86_64  -z max-page-size=0x200000  --build-id  -T ./scripts/module-common.lds -o /home/woongsu/term_linux/skiplist.ko /home/woongsu/term_linux/skiplist.o /home/woongsu/term_linux/skiplist.mod.o;  true
