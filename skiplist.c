@@ -274,36 +274,25 @@ void skiplistDelete(Skiplist s, int key)
 }
 
 void struct_example(void){
-	
-    int n;
+    int n, i;
     Skiplist s;
-    int i;
 
-    n = 1000;
-    
+    n = 100;
     s = skiplistCreate();
 
-    for(i = 0; i < n; i += 2) {
-     	
-	printk("1 : %d\n", s->key);
+    for(i = 0; i < n; i++) {
         skiplistInsert(s, i);
-    	
-	printk("insert final value : %d\n", s->key);
     }
     
+    for(i = 0; i < n; i++) {
+        printk("search %d : %d\n", i, skiplistSearch(s, i));
+    }
     
-    
-    for(i = 0; i < n; i += 4) {
-        printk("delete start value : %d\n", s->key);
-     
+    for(i = 0; i < n; i+=2) {
         skiplistDelete(s, i);
-     
-        printk("delete end value : %d\n", s->key);
     }
 
-
-
-    for(i = 0; i < n; i += 2) {
+    for(i = 1; i < n; i+=2) {
         printk("search %d : %d\n", i, skiplistSearch(s, i));
     }
     
