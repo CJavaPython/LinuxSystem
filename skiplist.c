@@ -88,7 +88,6 @@ static Skiplist skiplistCreateNode(int key, int height)
     s = kmalloc(sizeof(struct skiplist) + sizeof(struct skiplist *) * (height - 1) , GFP_KERNEL);
     s->key = key;
     s->height = height;
-    printk("2 : %d\n", s->key);
     return s;
 }
 
@@ -153,7 +152,6 @@ void skiplistInsert(Skiplist s, int key)
 {
     int level;
     Skiplist elt;
-    printk("1 : %d\n", key);
 
     elt = skiplistCreateNode(key, chooseHeight()); 
 
@@ -197,8 +195,6 @@ void skiplistInsert(Skiplist s, int key)
         s->next[level] = elt;
 
     }
-
-    printk("3 : %d\n", s->key);
 }
 
  
@@ -272,45 +268,48 @@ void skiplistDelete(Skiplist s, int key)
     kfree(target);
 
 }
-
 void struct_example(void){
-	
-    int n;
-    Skiplist s;
-    int i;
 
-    n = 1000;
-    
-    s = skiplistCreate();
-
-    for(i = 0; i < n; i += 2) {
-     	
-	printk("1 : %d\n", s->key);
-        skiplistInsert(s, i);
-    	
-	printk("insert final value : %d\n", s->key);
-    }
-    
-    
-    
-    for(i = 0; i < n; i += 4) {
-        printk("delete start value : %d\n", s->key);
+     int n, i;
      
-        skiplistDelete(s, i);
+     Skiplist s;
      
-        printk("delete end value : %d\n", s->key);
-    }
-
-
-
-    for(i = 0; i < n; i += 2) {
-        printk("search %d : %d\n", i, skiplistSearch(s, i));
-    }
-    
-    skiplistDestroy(s);
+     n = 100;
+     
+     s = skiplistCreate();
+     
+     
+     //skip list insert
+     for(i = 0; i < n; i++) {
+     
+         skiplistInsert(s, i);
+         
+     }
+     
+     //skip list search all
+     for(i = 0; i < n; i++) {
+     
+         printk("search %d : %d\n", i, skiplistSearch(s, i));
+         
+     }
+     
+     //skip list delete even number
+     for(i = 0; i < n; i+=2) {
+     
+         skiplistDelete(s, i);
+         
+     }
+     
+     
+     //skip list search odd number
+     for(i = 1; i < n; i+=2) {
+     
+         printk("search %d : %d\n", i, skiplistSearch(s, i));
+         
+     }
+     //skip list end
+     skiplistDestroy(s);
 }
-
-
 
 int __init skip_module_init(void){
 	struct_example();
